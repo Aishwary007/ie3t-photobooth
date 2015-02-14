@@ -1,2 +1,0 @@
-import os
-os.system("cp capt0000.jpg /home/rahul/apache")
