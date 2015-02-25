@@ -3,9 +3,11 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
-f = open('send1.txt','r')
 
 def SendMail(ImgFileName):
+    print("connecting..")
+    flag = 0
+    f = open("emails.txt",'w')
     img_data = open(ImgFileName, 'rb').read()
     msg = MIMEMultipart()
     msg['Subject'] = 'AUTOMATED PHOTOBOOTH @JUIT'
@@ -24,17 +26,20 @@ def SendMail(ImgFileName):
     UserName='ieee.photobooth'
     UserPassword='clickphoto'
     s.login(UserName, UserPassword)
-    """while True:
-        To = f.readline()
-        print(To)
-        if not To:
-            break"""
-    To = f.readline()
-    print(To)
-    print("Sending")
-    s.sendmail(From, To, msg.as_string()) 
+    print("connected")
+    mail = raw_input("Enter Email[Seperated by comma] : ")
+    mail = mail.split(',')
+    print(mail)
+    for To in mail:
+        print("Sending") 
+        s.sendmail(From, To, msg.as_string())
+        print("Sent")
+        if flag==0:
+            f.write(To)
+            flag = 1
+            f.close()
     s.quit()
-    print("Sent")
+    execfile('store.py')
 SendMail('capt0000.jpg')
 
 
